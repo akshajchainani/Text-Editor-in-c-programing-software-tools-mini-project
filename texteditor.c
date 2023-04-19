@@ -4,32 +4,30 @@
 
 #define MAX_LENGTH 1000
 
-int main(void)
+int main()
 {
+    char filename[100];
     char content[MAX_LENGTH];
-    int content_length = atoi(getenv("CONTENT_LENGTH"));
 
-    // Read input from POST request
-    fgets(content, content_length + 1, stdin);
+    printf("Enter filename to create: ");
+    scanf("%s", filename);
 
-    // Open file for writing
-    FILE *fp = fopen("output.txt", "w");
+    FILE *fp = fopen(filename, "w");
 
-    if (fp == NULL) {
-        printf("Error: could not create file\n");
-        return 1;
+    if(fp == NULL)
+    {
+        printf("Error creating file!\n");
+        exit(1);
     }
 
-    // Write input to file
+    printf("Enter text (max 1000 characters):\n");
+    scanf(" %[^\n]s", content);
+
     fputs(content, fp);
 
     fclose(fp);
 
-    // Return HTTP response
-    printf("Content-type: text/html\n\n");
-    printf("<html><body>");
-    printf("<h1>File saved successfully!</h1>");
-    printf("</body></html>");
+    printf("\nFile created and saved successfully!\n");
 
     return 0;
 }
